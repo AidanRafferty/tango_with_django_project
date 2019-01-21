@@ -18,19 +18,23 @@ from django.contrib import admin
 from django.conf.urls import include
 from rango import views
 
-# this script strips the host part of the url and rango and passes into the application
+# this script strips the host part of the url
+# and rango and passes into the application
 # url script 
 urlpatterns = [
+    
     url(r'^$', views.index, name='index'),
-    url(r'^rango/', include('rango.urls')),
 
-    # above maps any URLs starting
-    # with rango/ to be handled by
-    # the rango application
-    # When a match is made the remainder of
-    # the url is passed onto and handled by the 
-    # rango.urls oython script through the use of the
-    # include() function
+    
+    # This mapping below looks for URL strings that match the patterns
+    # ^rango/. When a match is made the remainder of the URL string
+    # (after rango/ has been stripped from it) is then
+    # passed onto and handled by rango.urls through the use of the
+    # include() function. The application script (rango.urls) will then handle
+    # the remainder of the url and match it to the appropriate view. 
+
+    
+    url(r'^rango/', include('rango.urls')),
     
     url(r'^admin/', admin.site.urls),
 ]
