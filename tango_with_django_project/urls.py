@@ -17,6 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from rango import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 # this script strips the host part of the url
 # and rango and passes into the application
@@ -30,11 +32,11 @@ urlpatterns = [
     # ^rango/. When a match is made the remainder of the URL string
     # (after rango/ has been stripped from it) is then
     # passed onto and handled by rango.urls through the use of the
-    # include() function. The application script (rango.urls) will then handle
+    # include() function. The application urls script (rango.urls) will then handle
     # the remainder of the url and match it to the appropriate view. 
 
     
     url(r'^rango/', include('rango.urls')),
     
     url(r'^admin/', admin.site.urls),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

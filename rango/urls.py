@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
 
-    # create a mapping to the about view if the reainder of the url is 'about/'
+    # create a mapping to the about view if the remainder of the url is 'about/'
 
     
     url(r'^about/', views.about, name='about'),

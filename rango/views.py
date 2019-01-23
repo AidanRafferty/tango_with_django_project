@@ -23,7 +23,10 @@ def index(request):
     # filename and the context dictionary. The render() function will takes this
     # data and mash it together with the template to produce a complete HTML page
     # that is returned with a HttpResponse. This response is then returned and
-    # dispatched to the user's web browser. 
+    # dispatched to the user's web browser
+
+    # we only need to specify the path rango/index.html as we have defined the
+    # templates diretcory in our settings python script
 
     return render(request, 'rango/index.html', context = context_dict)
 
@@ -32,6 +35,10 @@ def index(request):
 
 def about(request):
 
-    return HttpResponse("Rango says here is about the page <br/> <a href='/rango/'>Index</a>")
+    context_dict1 = {'AR': "This Tutorial has been put together by Aidan Rafferty.", 'MEDIA_URL': '/media/'}
+
+    return render(request, 'rango/about.html', context = context_dict1)
+
+    #return HttpResponse("Rango says here is about the page <br/> <a href='/rango/'>Index</a>")
 
 
