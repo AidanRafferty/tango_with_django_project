@@ -37,6 +37,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # These variables will be picked up by django in order to set up media file hosting
 # MEDIA_ROOT informs django where to look in your filesystem for media files 
 MEDIA_ROOT = MEDIA_DIR
+
 # MEDIA_URL informs django of the URL these media files are to be served from 
 MEDIA_URL = '/media/'
 
