@@ -28,25 +28,33 @@ def populate():
     # These lists of dictionaries contain the pages from each category
     python_pages = [
         {"title": "Official Python Tutorial",
-         "url":"http://docs.python.org/2/tutorial/"},
+         "url":"http://docs.python.org/2/tutorial/",
+         "views":30},
         {"title":"How to Think like a Computer Scientist",
-        "url":"http://www.greenteapress.com/thinkpython/"},
+        "url":"http://www.greenteapress.com/thinkpython/",
+         "views":25},
         {"title":"Learn Python in 10 Minutes",
-        "url":"http://www.korokithakis.net/tutorials/python/"} ]
+        "url":"http://www.korokithakis.net/tutorials/python/",
+         "views":15} ]
 
     django_pages = [
         {"title":"Official Django Tutorial",
-         "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/"},
+         "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/",
+         "views":26},
         {"title":"Django Rocks",
-         "url":"http://www.djangorocks.com/"},
+         "url":"http://www.djangorocks.com/",
+         "views":19},
         {"title":"How to Tango with Django",
-         "url":"http://www.tangowithdjango.com/"} ]
+         "url":"http://www.tangowithdjango.com/",
+         "views":18} ]
 
     other_pages = [
         {"title":"Bottle",
-         "url":"http://bottlepy.org/docs/dev/"},
+         "url":"http://bottlepy.org/docs/dev/",
+         "views":29},
         {"title":"Flask",
-         "url":"http://flask.pocoo.org"} ]
+         "url":"http://flask.pocoo.org",
+         "views":20} ]
 
     # This dictionary of dictionaries of our categories pages contains
     # the category as the key and the value as
@@ -56,10 +64,6 @@ def populate():
     cats = {"Python": {"pages": python_pages, "views":128, "likes":64},
             "Django": {"pages": django_pages, "views":64, "likes":32},
             "Other Frameworks": {"pages": other_pages, "views":32, "likes":16}}
-
-
-
-
 
     # cat means category, with cat_data referring to the dictionary of the pages
     # of this category
@@ -79,7 +83,7 @@ def populate():
             # between Category and Pages, as 1 Category can be the type of category of many pages, but a is of only 1 category.
             # so supply the category record(category) that this page is associated with - eg if the page is of category Python, then supply the Python record from
             # the Category model. Then supply the other page attribute details in order to fill the remaining fields for the page, being it's title and URL. 
-            add_page(c, p["title"], p["url"])
+            add_page(c, p["title"], p["url"], p["views"])
 
 
     # loop through each of the category objects, c, that have been added 
@@ -97,13 +101,13 @@ def populate():
 
 
 # Create a function that creates a new page object and adds this to the database
-def add_page(cat, title, url, views=0):
+def add_page(cat, title, url, views):
 
     # either return an existing page object with the same attributes supplied,
     # or create a page object using the peramters supplied, using the Category object related to
     # the page as the foreign key.
     p = Page.objects.get_or_create(category=cat, title=title)[0]
-    print("This is what is held in the category field in page record", p.category)
+    #print("This is what is held in the category field in page record", p.category)
 
     # if the object has to be created then assign the values passed into the function
     # to their respective attributes 
