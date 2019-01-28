@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/$',
         views.show_category, name='show_category'),
 
-    # in the above url mapping will therefore match any sequenvce of alphanumeric
+    # in the above url mapping will therefore match any sequence of alphanumeric
     # characters and hyphens which are in between the rango/cataegory/ and the
     # trailing /. This will then be stored in the perameter category_name_slug and
     # passed into views.show_category().
@@ -45,10 +45,26 @@ urlpatterns = [
     # regular expression, and a 404 not found error would result as there is no
     # matching URL pattern.
 
-    # All view functions defined as part of a Django applications must take atleast one parameter.
+    # All view functions defined as part of a Django applications must take at least one parameter.
     # This is typically called request - and provides access to information related to the given HTTP
     # request made by the user. When parameterising URLs, you supply additional named parameters
     # to the signature for the given view. That is why our show_category() view was defined as def
-    # show_category(request, category_name_slug).
+    # show_category(request, category_name_slug).
+    
+    # add the url that will be mapped to the view for adding a new category, which is
+    # /rango/add_category/.
+    url(r'^add_category/$', views.add_category, name='add_category'),
+
+    # add a url patten that will map to the add_page view specifying the
+    # category_name_slug of the catgory that the page to be added is one of
+    # which will be passed into the view as a perameter, and used when creating the new
+    # database entry for the page.category field.
+    url(r'^category/(?P<category_name_slug>[\w\-]+)/add_page/$',
+        views.add_page, name = 'add_page'),
+
+
+
+
+    
 ]
 

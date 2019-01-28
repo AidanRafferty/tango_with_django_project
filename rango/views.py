@@ -6,6 +6,11 @@ from rango.models import Category
 
 from rango.models import Page
 
+from rango.forms import CategoryForm
+
+from rango.forms import PageForm
+
+
 def index(request):
 
     # Construct a dictionary to pass to the template engine as its context.
@@ -88,7 +93,6 @@ def show_category(request, category_name_slug):
         # This adds our results to the template context under the name pages
         context_dict['pages'] = pages
 
-
         # We also add the category object to the context dictionary so that we can
         # use it to verify the category exists inside the template.
         context_dict['category'] = category
@@ -99,11 +103,127 @@ def show_category(request, category_name_slug):
         # Don't do anything - The template will display the "no category" message for us.
         
         context_dict['pages'] = None
+        
         context_dict['category'] = None
 
     # render the response and return it to the client with the template and the context dictionary
     return render(request, 'rango/category.html', context_dict)
 
+
+
+
+def add_category(request):
+
+    form = CategoryForm()
+
+    # A HTTP POST? - this checks to see if the HTTP request was a POST request,
+    # which if it was means that the user submitted data via the form.
+    # if this is not the case then the next statement executed will be the rendering of the view
+    # with the template and context dictionary displaying the empty form to the user for them to
+    # enter their data. 
+    if request.method == 'POST':
+
+        form = CategoryForm(request.POST)
+
+        # Check to see if the form is valid
+        if form.is_valid():
+
+            # save the new category to the database 
+            form.save(commit=True)
+
+            # Now the category is saved we could give a confirmation message,
+            # but since the most recent category added is on the index page we
+            # can redirect the user back to the index page so they can see their
+            # form has been submitted successfully.
+            return index(request)
+        
+        else:
+            
+            # The supplied form must contain some errors
+            # These therefore should be printed to the terminal
+            print(form.errors)
+
+    # This will handle the bad form, new form, or no form supplied cases.
+    # Render the form with error messages (if any) supplying the template that will
+    # be used within the view and the context didctionary.
+    # This redirects the user to the view but displays an error message to the
+    # user allowing them to resubmit after fixing the error, or gives a blank form
+    # allowing them to enter their data.
+    return render(request, 'rango/add_category.html', {'form':form})
+
+
+
+
+def add_page(request, category_name_slug):
+
+    # Attempt to find the given category object that the page about
+    # to be added will be associated with
+    try:
+
+        # if it is found then assign it to category
+        category = Category.objects.get(slug=category_name_slug)
+
+    # otherwise if the category doesnt exist and a DoesNotExist exception occurs
+
+    except Category.DoesNotExist:
+
+    # then assign None to category
+        category = None
+
+    form = PageForm()
+
+    # if the user has submitted the form and it contains data resulting in a POST request 
+    if request.method == 'POST':
+
+        # assign the submitted form with its data to the variable form 
+        form = PageForm(request.POST)
+
+        # if the form submitted contains valid data then 
+        if form.is_valid():
+
+            # if the category exists (is not None) then
+            if category:
+
+                page = form.save(commit=False)
+
+                # give values to the hidden fields and then save:
+                
+                # assign category to the field category in the page
+                page.category = category
+
+                # assign the value 0 to the views field 
+                page.views = 0
+
+                # save the new page in the database 
+                page.save()
+
+                # redirect the user to the show_category view which will show the pages associated
+                # with the category that the new page they have just added is one of, allowing them
+                # to see that their page has been added to the database succesfully. 
+                return show_category(request, category_name_slug)
+
+        # Otherwise print the relevant error message 
+        else:
+            
+            print(form.errors)
+
+    # create the context dictionary that will be passed into the template for the add_page view 
+    context_dict = {'form':form, 'category':category}
+
+    # This will handle the bad form, new form, or no form supplied cases.
+    # Render the form with error messages (if any) supplying the template that will
+    # be used within the view and the context didctionary.
+
+    # This redirects the user to the add_page view but displays an error message to the
+    # user allowing them to resubmit after fixing the error(s) they have made when submitting previously,
+    # or gives a blank form for them to enter their data.
+    return render(request, 'rango/add_page.html', context_dict)
+
+            
+            
+        
+            
+            
 
         
 

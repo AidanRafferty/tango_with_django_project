@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rango</title>
+	</head>
+	
+	<body>
+		<!-- check to see if the category exists, if it does then
+		display the form and allow the user to enter the details of the page they wish to add -->
+		{% if category %}
+		
+		<h1>Add a Page to {{category.name}}</h1>
+		
+		<div>
+		
+			<!-- all the data captured in the form element below is sent 
+			to the URL /rango/add_page/ as a HTTP POST request
+			Once the data is subitted the view function will be called again 
+			and if the data submitted was valid then the user will be redirected 
+			back to the category page to find their form has been submitted Successfuly.
+			Otherwise the relevant form will be displayed - either empty or with error
+			messages.-->
+			
+			<form id="page_form" method="POST" action="/rango/category/{{ category.slug }}/add_page/">
+				{% csrf_token %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+					</br>
+				{% endfor %}
+				<input type="submit" name="submit" value="Create Page" />
+			</form>
+		{% else %}
+			A category by this name does not exist!
+		{% endif %}
+		</div>
+	</body>
+</html>
+
+
