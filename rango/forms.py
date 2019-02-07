@@ -1,5 +1,7 @@
 from django import forms
-from rango.models import Page, Category
+from django.contrib.auth.models import User
+from rango.models import Category, Page, UserProfile
+
 # Here we implement the necessary infrastructure that will allow users to add categories
 # and pages to the database via forms
 
@@ -14,7 +16,8 @@ class CategoryForm(forms.ModelForm):
 
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
-    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
 
 
     # This is an inline class to provide additional information on the form
@@ -30,7 +33,7 @@ class PageForm(forms.ModelForm):
     title = forms.CharField(max_length=128,
                             help_text="Please enter the title of the page.")
     
-    url = forms.CharField(max_length=200,
+    url = forms.URLField(max_length=200,
                          help_text="Please enter the URL of the page.")
 
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -51,7 +54,7 @@ class PageForm(forms.ModelForm):
             url = 'http://' + url
             cleaned_data['url'] = url
 
-        return cleaned_data
+            return cleaned_data
 
     class Meta:
         
@@ -80,4 +83,42 @@ class PageForm(forms.ModelForm):
 
 # 4. You must always end the clean() method by returning the reference to the cleaned_data
 # dictionary. Otherwise the changes won’t be applied.
+
+# in the meta class this contains any additional properties about the class it belongs to.
+class UserForm(forms.ModelForm):
+
+    # this widget ensures that the actual text entered into this form field will not
+    # be visible to ensure security
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+
+        # specify which fields should be present in the rendered form displayed 
+        fields = ('username', 'email', 'password')
+
+
+
+
+
+
+
+
+
+
+
+
+# for the user field in the UserProfile model we will
+# need to make this association
+# between the User and UserProfile instance when we 
+# register the user as when we create a UserProfile instance we will not yet
+# have the User instance to refer to. 
+class UserProfileForm(forms.ModelForm):
+    
+    class Meta:
+
+        model = UserProfile
+
+        fields = ('website', 'picture')
+        
 

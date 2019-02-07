@@ -41,6 +41,10 @@ MEDIA_ROOT = MEDIA_DIR
 # MEDIA_URL informs django of the URL these media files are to be served from 
 MEDIA_URL = '/media/'
 
+# this ensures that any user who tries to acces a resticted page for logged in users
+# is redirected to this url
+LOGIN_URL = '/rango/login/'
+
 
 
 
@@ -162,4 +166,5 @@ STATIC_URL = '/static/'
 print("BASE", BASE_DIR)
 print(__file__)
 print(os.path.dirname(__file__))
-print(os.path.dirname(os.path.dirname(__file__)))
+print(os.path.dirname(os.path.dirname(__file__)))
+

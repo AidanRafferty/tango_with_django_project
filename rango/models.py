@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -17,7 +18,8 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
         
     def __str__(self):
-        return self.name
+        return self.name
+
 
 class Page(models.Model):
 
@@ -36,4 +38,31 @@ class Page(models.Model):
     def __str__(self):
         return self.title
 
+class UserProfile(models.Model):
+
+    # this line associates UserProfile to a user model instance in a 1 to 1
+    # relationship
+
+    user = models.OneToOneField(User)
+
+    # add the 2 new additional attributes 
+    website = models.URLField(blank=True)
+
+    # we set blank to true so that the user is able to leave this field blank if
+    # necessary
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
+    # Furthermore, it should be noted that the ImageField field has an upload_to attribute.
+    # The value of this attribute is conjoined with the project’s MEDIA_ROOT
+    # setting to provide a path with which uploaded profile images will be stored.
+    # For example, a MEDIA_ROOT of <workspace>/tango_with_django_project/media/
+    # and upload_to attribute of profile_images will result in all profile images
+    # being stored in the directory <workspace>/tango_with_django_project/media/profile_images/.
+    
+    
+    # create a toString method
+    def __str__(self):
+        return self.user.username
+    
+    
     
