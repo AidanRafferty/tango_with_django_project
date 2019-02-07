@@ -36,7 +36,7 @@ urlpatterns = [
     # in the above url mapping will therefore match any sequence of alphanumeric
     # characters and hyphens which are in between the rango/cataegory/ and the
     # trailing /. This will then be stored in the perameter category_name_slug and
-    # passed into views.show_category().
+    # passed into the show_category view, views.show_category().
 
     # For example, the URL rango/category/pythonbooks/ would result in the
     # category_name_slug having the value, python-books.

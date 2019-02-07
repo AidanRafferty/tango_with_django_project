@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+<html>
+	<head lang="en">
+		<meta charset = "UTF8"/>
+		<title>
+			Rango - 
+			{% block title_block %}
+				 How to Tango with Django!
+			{% endblock %}
+		</title>
+	</head>
+	<body>
+		<div>
+		
+			<!--Page specific content will appear here
+			So we provide template tags to show which parts of the
+			template can be overriden by templates that inherit from this 
+			base template.
+			Here we provide the body_block to the base template to show that 
+			the body of the html page can be changed by other pages that inherit 
+			from the base template-->
+		
+			{% block body_block %}
+				<!-- if we wanted to provide default content in this block that is displayed 
+				by all inheriting pages then we would place it here between these tags-->
+			{% endblock %}	
+		</div>
+		
+		<div>
+		<!-- this is placed in base so that if any inheriting templates are showing
+		or accessing a category object eg in show category then this category object will
+		be passed into the get_category_list template tag and made bold when displayed.-->
+		{% block sidebar_block %}
+			{% get_category_list category %}
+		{% endblock %}
+		
+		</div>
+		<hr /><!-- This is a horizontal rule which provides a visual seperation between the
+			body block content and the hyperlinks at the bottom of the page-->
+		
+		<div>
+			<!-- we have added the unordered list of hyperlinks below so that evey inheriting page from base will
+			provide these links at the bottom of the page after the body block-->
+			
+			<ul>
+				<li><a href="{% url 'add_category' %}">Add New Category</a></li>
+				<li><a href="{% url 'about' %}">About</a></li>
+				<li><a href="{% url 'index' %}">Index</a></li>
+			</ul>
+		</div>
+	</body>
+</html>

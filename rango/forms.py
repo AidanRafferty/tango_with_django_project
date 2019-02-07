@@ -28,7 +28,7 @@ class PageForm(forms.ModelForm):
     
     
     title = forms.CharField(max_length=128,
-                            help_text="Plese enter the title of the page.")
+                            help_text="Please enter the title of the page.")
     
     url = forms.CharField(max_length=200,
                          help_text="Please enter the URL of the page.")
@@ -81,24 +81,3 @@ class PageForm(forms.ModelForm):
 # 4. You must always end the clean() method by returning the reference to the cleaned_data
 # dictionary. Otherwise the changes won’t be applied.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        
-        

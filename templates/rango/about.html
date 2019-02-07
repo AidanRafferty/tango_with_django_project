@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 {% load staticfiles %} 
-<html>
-	<head>
-	<title>About</title>
-	</head>
-	<body>
+
+{% block title_block %}
+	About
+{% endblock %}
+
+{% block body_block %}
+
 		<h1>Rango says here is the about page.</h1>
 		
 		<div>
@@ -12,7 +14,6 @@
 		<div/>
 		
 		<div>
-			<a href="/rango/" >Index</a><br />
 			<img src="{{MEDIA_URL}}cat.jpg" 
 			     alt="Picture of a cat" />
 		</div>
@@ -22,5 +23,4 @@
 			     alt="Picture of Rango" /> <!-- This is the alternative text 
 			which is displayed if for some reason the file doesnt load  -->
 		</div>
-	</body>
-</html>
+{% endblock %}

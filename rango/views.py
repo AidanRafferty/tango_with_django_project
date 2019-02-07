@@ -117,7 +117,7 @@ def add_category(request):
     form = CategoryForm()
 
     # A HTTP POST? - this checks to see if the HTTP request was a POST request,
-    # which if it was means that the user submitted data via the form.
+    # which if it was, means that the user submitted data via the form.
     # if this is not the case then the next statement executed will be the rendering of the view
     # with the template and context dictionary displaying the empty form to the user for them to
     # enter their data. 
@@ -149,7 +149,7 @@ def add_category(request):
     # This redirects the user to the view but displays an error message to the
     # user allowing them to resubmit after fixing the error, or gives a blank form
     # allowing them to enter their data.
-    return render(request, 'rango/add_category.html', {'form':form})
+    return render(request, 'rango/add_category.html', {'form': form})
 
 
 
