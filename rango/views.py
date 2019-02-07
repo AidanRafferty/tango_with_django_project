@@ -22,8 +22,6 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import logout
 
-from rango.models import User
-
 def index(request):
 
     # Construct a dictionary to pass to the template engine as its context.
@@ -345,20 +343,9 @@ def user_login(request):
                 return HttpResponse("Your Rango Account is disabled")
             
         else:
-
-            if User.objects.filter(username=username).exists():
-
-                print("Invalid login details: {0}, {1}".format(username, password))
-                return HttpResponse("Incorrect password")
-
-            else:
-                print("Invalid login details: {0}, {1}".format(username, password))
-                return HttpResponse("Invalid username")
-
-                
             
             # Bad login details were provided. So we can't log the user in.
-            
+            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     # The request is not a HTTP POST, so display the login form.
@@ -371,8 +358,9 @@ def user_login(request):
 
 @login_required
 def restricted(request):
+    
     return render(request, 'rango/restricted.html', {})
-
+                  
 
 
 def user_logout(request):
